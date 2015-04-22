@@ -2,6 +2,8 @@
 
 A Unix password generator, storing the encrypted passwords locally. Passwords are encrypted with Java's AES/CBC/PKCS5Padding mode via the `[lock-key "1.1.0"]` clojar.
 
+Written with Clojure and managed with Leiningen.
+
 ## Installation
 
 Download the repo.
