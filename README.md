@@ -67,6 +67,14 @@ The following demonstrates generating a password for `mywebsite` and retrieving 
 
 To re-generate a password just call gen with the same login. To make the command easier, add an alias for each command.
 
+###
+
+To block java from taking focus, add the following flag to java when launching the jar.
+
+```
+        $ java -Dapple.awt/UIElement=true -jar ... 
+```
+
 ### Local password encryption
 
 By default, it will generate a .genpass file in your homedirectory (if it doesn't exist). It will encrypt it's contents (With  with a supplied password) using symmetric encryption in AES/CBC/PKCS5Padding mode. If you are sharing the machine, be sure to chmod the .genpass file to allow only the owner (you) read and write permission.
