@@ -10,7 +10,8 @@
 (defn rand-char  
   "Get a random char from a string"
   [string]
-  (get string (rand-int (count string))))
+  (get string (rand-int (count string)))
+  )
 
 (defn rand-string
   "Generate a random sring of length <length> consisting of cryptkeys"

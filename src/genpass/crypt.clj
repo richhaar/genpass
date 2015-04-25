@@ -76,6 +76,4 @@
   "User has authenticated, list all mappings"
   [options password]
   (clojure.pprint/pprint (fileh/get-raw-data (filepath) password))
-
-
   )
