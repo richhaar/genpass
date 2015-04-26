@@ -72,7 +72,7 @@ To re-generate a password just call gen with the same login. To make the command
 To block java from taking focus, add the following flag to java when launching the jar.
 
 ```
-        $ java -Dapple.awt/UIElement=true -jar ... 
+        $ java -Dapple.awt.UIElement=true -jar ... 
 ```
 
 ### Local password encryption
