@@ -35,10 +35,11 @@
         options-summary
         ""
         "Actions:"
-        "  gen    Generate a new password"
-        "  get    Get a password"
-        "  rem    Remove a user:password mapping"
-        "  list   List all users"
+        "  gen       Generate a new password"
+        "  get       Get a password"
+        "  rem       Remove a user:password mapping"
+        "  list      List all users"
+        "  changepw  Change the encryption password"
         ""]
        (s/join \newline)))
 
