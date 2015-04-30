@@ -2,11 +2,9 @@
   (:require [clojure.java.io :as io]
             [genpass.randpass :as pass]
             [genpass.filehandler :as fileh]
-            [snipsnap.core :as clipboard]
-            [clojure.java.shell :only [sh] :as sh])
+            [snipsnap.core :as clipboard])
     (:gen-class))
 
-(declare get-pw)
 
 (defn filepath
   "Return the full filepath of ~/.genpass"
