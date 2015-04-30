@@ -24,6 +24,8 @@ Create a jar with leiningen. You can run the jar as follows:
 
        list             List all users
 
+       changepw         Change the encryption password
+
 
 ## Options
 
