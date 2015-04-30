@@ -68,6 +68,12 @@
   [data filepath password]
   (write-file (encrypt data password) filepath))
 
+(defn change-encryption-write
+  "Change the password encryption"
+  [filepath oldpassword newpassword]
+  (encrypt-write (decrypt-as-str (read-file filepath) oldpassword) 
+                 filepath newpassword))
+
 ;;Handle adding entries
 ;;_____________________
 (defn map-add-password

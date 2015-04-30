@@ -6,6 +6,8 @@
             [clojure.java.shell :only [sh] :as sh])
     (:gen-class))
 
+(declare get-pw)
+
 (defn filepath
   "Return the full filepath of ~/.genpass"
   []
@@ -17,6 +19,36 @@
   []
   (.exists (io/as-file (filepath)))
   )
+
+(defn parse-y-n
+  "Return true on y/Y, false on n/N, nil on anything else"
+  [ans]
+  (cond (zero? (compare "y" (clojure.string/lower-case (str ans)))) true
+        (zero? (compare "n" (clojure.string/lower-case (str ans)))) false
+        :else nil)
+  )
+
+(defn confirm-overwrite
+  "Accept a y/n input confirming to generate a new password over
+  one that already exists"
+  []
+  (loop []
+    (do (print "confirm overwrite y/n?> ") (flush))
+    (let [reader (java.io.BufferedReader. *in*)
+          ans (.readLine reader)
+          res (parse-y-n ans)]
+      (cond
+       (true? res) true
+       (false? res) false
+       :else (recur))))
+)  
+
+(defn entry-exists?
+  "Check if an entry exists"
+ [options password]
+ (let [gotpassword (fileh/get-entry (filepath) password (:user options))]
+   (nil? gotpassword))
+)
 
 (defn exec-command
   "Exec a command"
@@ -37,21 +69,29 @@
         (cmd options password))))
     )
 
-(defn gen-pw
-  "User has authenticated, generate a new password,
-  add the user:newpassword to the existing map to the file"
+(defn create-pw
+  "Create a password"
   [options password]
   (let [genpass 
-        (pass/create-password (:length options) (:verbosity options))]
-    (fileh/write-new-entry (filepath) password (:user options) genpass)
-    (if (:showpassword options)
-      (println genpass)
-      (do (and (clipboard/set-text! genpass)
-               (println "Copied to clipboard"))
-          (future (Thread/sleep (:time options))
-                  (do (clipboard/set-text! " ")
-                      (shutdown-agents))))))
- )
+          (pass/create-password (:length options) (:verbosity options))]
+      (fileh/write-new-entry (filepath) password (:user options) genpass)
+      (if (:showpassword options)
+        (println genpass)
+        (do (and (clipboard/set-text! genpass)
+                 (println "Copied to clipboard"))
+            (future (Thread/sleep (:time options))
+                    (do (clipboard/set-text! " ")
+                        (shutdown-agents))))))
+  )
+(defn gen-pw
+  "User has authenticated, generate a new password if none-exists or
+  verify the user wants password to be overwritten and then
+  add the user:newpassword to the existing map and write the file"
+  [options password]
+  (if (or (entry-exists? options password) (confirm-overwrite))
+    (create-pw options password)
+    (do (println "password not overwritten") (System/exit 0)))
+    )
 
 (defn get-pw
   "User has authenticated, get the password of a given user"
@@ -77,3 +117,13 @@
   [options password]
   (clojure.pprint/pprint (fileh/get-raw-data (filepath) password))
   )
+
+(defn change-pw
+  "User has authenticated, change the encryption password"
+  [options password]
+  (do  (print "enter new password>") (flush))
+  (let [console (. System console)
+        newpassword (String. (.readPassword console))]
+    (fileh/change-encryption-write (filepath) password newpassword)
+    )  
+)

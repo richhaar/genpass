@@ -55,7 +55,8 @@
 (def cmd-map {"get" ['2 gen/get-pw]
               "gen" ['2 gen/gen-pw]
               "rem" ['2 gen/rem-pw]
-              "list" ['1 gen/list-pw]})
+              "list" ['1 gen/list-pw]
+              "changepw" ['1 gen/change-pw]})
 
 (defn get-cmd-args
   "Get the required arguments of a command"
