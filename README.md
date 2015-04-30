@@ -85,11 +85,6 @@ Un-encrypted contents are stored in a CSV format i.e (login1,randpass1\nlogin2ra
 
 It is possible for the clipboard to be read by unwanted programs, therefore the clipboard is cleared after the specified time (default 8 seconds after a get/set call). It is also possible to disable clipboard reading in certain browsers such as Firefox.
  
-### TODO
-
-Add an option to change encryption password.
-
-Add tests.
 
 ## License
 
