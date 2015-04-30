@@ -52,4 +52,6 @@
   (is (true? (parse-y-n "Y")))
   (is (false? (parse-y-n "n")))
   (is (false? (parse-y-n "N")))
+  (is (nil? (parse-y-n "not-valid")))
+  (is (nil? (parse-y-n "")))
   )
