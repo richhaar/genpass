@@ -70,7 +70,7 @@
     )
 
 (defn create-pw
-  "Create a password"
+  "Create a password, paste to clipboard or output to console"
   [options password]
   (let [genpass 
           (pass/create-password (:length options) (:verbosity options))]
