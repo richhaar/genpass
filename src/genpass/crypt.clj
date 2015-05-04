@@ -95,13 +95,15 @@
   "User has authenticated, get the password of a given user"
   [options password]
   (let [gotpassword (fileh/get-entry (filepath) password (:user options))]
-    (if (:showpassword options)
-      (println gotpassword)
-      (do  (and (clipboard/set-text! gotpassword)
-                 (println "Copied to clipboard"))
-           (future (Thread/sleep (:time options)) 
-                   (do (clipboard/set-text! " ")
-                       (shutdown-agents)) nil))))
+    (if (empty? gotpassword)
+      (println "No such password exists.")
+      (if (:showpassword options)
+        (println gotpassword)
+        (do  (and (clipboard/set-text! gotpassword)
+                  (println "Copied to clipboard"))
+             (future (Thread/sleep (:time options)) 
+                     (do (clipboard/set-text! " ")
+                         (shutdown-agents)) nil)))))
   )
 
 (defn rem-pw
